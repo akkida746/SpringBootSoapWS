@@ -1,0 +1,42 @@
+buildscript {
+	ext {
+		springBootVersion = '2.1.0.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group = 'com.akash'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+}
+
+configurations {
+	jaxb
+}
+
+dependencies {
+	implementation('org.springframework.boot:spring-boot-starter-web')
+	runtimeOnly('org.springframework.boot:spring-boot-devtools')
+	testImplementation('org.springframework.boot:spring-boot-starter-test')
+	compile("org.springframework.boot:spring-boot-starter-web-services")
+	compile("wsdl4j:wsdl4j:1.6.1")
+	jaxb("org.glassfish.jaxb:jaxb-xjc:2.2.11")
+	compile group: 'org.springframework', name: 'spring-oxm', version: '3.0.4.RELEASE'
+	implementation('org.springframework.boot:spring-boot-starter-actuator')
+	compile(files(genJaxb.classesDir).builtBy(genJaxb))
+}
